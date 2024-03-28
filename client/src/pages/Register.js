@@ -7,11 +7,23 @@ const Register = () => {
 
   async function register(event) {
     event.preventDefault();
-    await fetch("http://localhost:3001/register", {
-      method: "POST",
-      body: JSON.stringify({ username, password }),
-      headers: { "Content-Type": "application/json" },
-    });
+    const username = document.getElementById("username").value;
+    const password = document.getElementById("password").value;
+    try {
+      const response = await fetch("http://localhost:8080/register", {
+        method: "POST",
+        body: JSON.stringify({ username, password }),
+        headers: { "Content-Type": "application/json" },
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to register");
+      }
+      const data = await response.json();
+      console.log("Registration successful:", data);
+    } catch (error) {
+      console.error("Registration error:", error.message);
+    }
   }
 
   return (
@@ -25,19 +37,19 @@ const Register = () => {
         <form className="mt-8 space-y-6" onSubmit={register}>
           <div className="rounded-md shadow-sm -space-y-px ">
             <div className="mb-8">
-              <label htmlFor="email-address" className="sr-only">
-                Email address
+              <label htmlFor="username" className="sr-only">
+                Username
               </label>
               <input
-                id="email-address"
-                name="email"
-                type="email"
-                autoComplete="email"
+                id="username"
+                name="username"
+                type="username"
+                autoComplete="username"
                 required
                 value={username}
                 onChange={(event) => setUsername(event.target.value)}
                 className="appearance-none rounded relative block w-full px-3 py-4 border border-gray-300 placeholder-gray-500 text-gray-900  focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                placeholder="Email address"
+                placeholder="Username"
               />
             </div>
             <div>
