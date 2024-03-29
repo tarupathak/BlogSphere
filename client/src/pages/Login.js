@@ -1,7 +1,29 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, Navigate } from "react-router-dom";
 
 const Login = () => {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [redirect, setRedirect] = useState(false);
+
+  async function login(ev) {
+    ev.preventDefault();
+    const response = await fetch("http://localhost:8080/login", {
+      method: "POST",
+      body: JSON.stringify({ username, password }),
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+    });
+    if (response.ok) {
+      setRedirect(true);
+    } else {
+      alert("Wrong credentials");
+    }
+  }
+  if (redirect) {
+    return <Navigate to={"/"} />;
+  }
+
   return (
     <div className="mt-6 flex items-center justify-center sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
@@ -10,20 +32,22 @@ const Login = () => {
             Login to your account
           </h2>
         </div>
-        <form className="mt-8 space-y-6">
+        <form className="mt-8 space-y-6" onSubmit={login}>
           <div className="rounded-md shadow-sm -space-y-px ">
             <div className="mb-8">
-              <label htmlFor="email-address" className="sr-only">
-                Email address
+              <label htmlFor="username" className="sr-only">
+                Username
               </label>
               <input
-                id="email-address"
-                name="email"
-                type="email"
-                autoComplete="email"
+                id="username"
+                name="username"
+                type="username"
+                autoComplete="username"
                 required
+                value={username}
+                onChange={(event) => setUsername(event.target.value)}
                 className="appearance-none rounded relative block w-full px-3 py-4 border border-gray-300 placeholder-gray-500 text-gray-900  focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                placeholder="Email address"
+                placeholder="Username"
               />
             </div>
             <div>
@@ -36,6 +60,8 @@ const Login = () => {
                 type="password"
                 autoComplete="current-password"
                 required
+                value={password}
+                onChange={(event) => setPassword(event.target.value)}
                 className="appearance-none rounded relative block w-full px-3 py-4 border border-gray-300 placeholder-gray-500 text-gray-900  focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                 placeholder="Password"
               />
