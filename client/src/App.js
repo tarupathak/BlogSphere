@@ -5,6 +5,7 @@ import Layout from "./pages/Layout";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import { UserContextProvider } from "./UserContext";
+import CreatePost from "./pages/CreatePost";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
           <Route index element={<Layout />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/create" element={<CreatePost />} />
         </Routes>
       </BrowserRouter>
     </UserContextProvider>
