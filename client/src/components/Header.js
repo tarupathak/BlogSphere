@@ -1,26 +1,29 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
+import { UserContext } from "../UserContext";
 
 const Header = () => {
-  const [username, setUsername] = useState(null);
+  const { setUserInfo, userInfo } = useContext(UserContext);
 
   useEffect(() => {
     fetch("http://localhost:8080/profile", {
       credentials: "include",
     }).then((response) => {
       response.json().then((userInfo) => {
-        setUsername(userInfo.username);
+        setUserInfo(userInfo);
       });
     });
   }, []);
 
-  function logout(){
-    fetch('http://localhost:8080/logout',{
-      credentials: 'include',
-      method: 'POST'
-    })
-    setUsername(null);
+  function logout() {
+    fetch("http://localhost:8080/logout", {
+      credentials: "include",
+      method: "POST",
+    });
+    setUserInfo(null);
   }
+
+  const username = userInfo?.username;
 
   return (
     <div className="flex items-center justify-between">
