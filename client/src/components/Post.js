@@ -1,19 +1,21 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { formatISO9075 } from "date-fns";
 
-const Post = ({ title, summary, cover, content, createdAt,author }) => {
+const Post = ({ _id, title, summary, cover, content, createdAt, author }) => {
   return (
     <div className="flex items-start justify-between mt-8 border border-gray-300 rounded-lg p-4 mb-12">
-      <div className="h-[100%] w-[80%]">
-        <img
-          src="https://miro.medium.com/v2/resize:fit:408/format:webp/1*eGA1BzYF6ETCn6wO09Gm-A.png"
-          alt="image"
-        />
+      <div className="h-1/3 w-[30%]">
+        <Link to={`/post/${_id}`}>
+          <img src={"http://localhost:8080/" + cover} alt="image" />
+        </Link>
       </div>
       <div>
-        <div className="text-2xl font-bold">{title}</div>
+        <Link to={`/post/${_id}`}>
+          <div className="text-2xl font-bold">{title}</div>
+        </Link>
         <p className="flex gap-4 text-xs font-bold text-[grey]">
-          <div className="">{author}</div>
+          <a className="">{author}</a>
           <time>{formatISO9075(new Date(createdAt))}</time>
         </p>
         <p>{summary}</p>
