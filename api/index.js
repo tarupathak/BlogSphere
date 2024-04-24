@@ -14,7 +14,7 @@ const fs = require("fs");
 app.use(cors({ credentials: true, origin: "http://localhost:3000" }));
 app.use(express.json());
 app.use(cookieParser());
-app.use('/uploads',express.static(__dirname+ '/uploads'));
+app.use("/uploads", express.static(__dirname + "/uploads"));
 
 mongoose.connect(
   "mongodb+srv://pathaktaru2002:12345@cluster0.yb85zcz.mongodb.net/BlogSphere"
@@ -99,6 +99,12 @@ app.get("/post", async (req, res) => {
       .limit(20)
   );
 });
+
+app.get('/post/:id', async (req, res) => {
+  const {id} = req.params;
+  const postDoc = await Post.findById(id).populate('author', ['username']);
+  res.json(postDoc);
+})
 
 app.listen(8080, () => {
   console.log("Server is running on port 8080");
