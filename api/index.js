@@ -139,6 +139,34 @@ app.get('/post/:id', async (req, res) => {
   res.json(postDoc);
 })
 
+app.put("/post/:id", uploadMiddleware.single("file"), async (req, res) => {
+  const postId = req.params.id;
+  const { title, summary, content } = req.body;
+  const { file } = req;
+
+  try {
+    let updateFields = { title, summary, content };
+
+    // If a new file is uploaded, update the cover field
+    if (file) {
+      updateFields.cover = file.path;
+    }
+
+    const updatedPost = await Post.findByIdAndUpdate(postId, updateFields, {
+      new: true, // Return the updated document
+    });
+
+    if (!updatedPost) {
+      return res.status(404).json({ error: "Post not found" });
+    }
+
+    res.json(updatedPost);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
 app.listen(8080, () => {
   console.log("Server is running on port 8080");
 });
