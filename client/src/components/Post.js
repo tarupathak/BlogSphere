@@ -15,7 +15,7 @@ const Post = ({ _id, title, summary, cover, content, createdAt, author }) => {
           <div className="text-2xl font-bold">{title}</div>
         </Link>
         <p className="flex gap-4 text-xs font-bold text-[grey]">
-          <a className="">{author}</a>
+          {/* <a className="">{author}</a> */}
           <time>{formatISO9075(new Date(createdAt))}</time>
         </p>
         <p>{summary}</p>
