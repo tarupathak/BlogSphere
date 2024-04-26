@@ -52,22 +52,28 @@ export default function EditPost() {
   }
 
   return (
-    <form onSubmit={updatePost}>
+    <form className="mt-8" onSubmit={updatePost}>
       <input
         type="text"
         placeholder="Title"
         value={title}
+        className="appearance-none rounded relative mb-2 block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900  focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
         onChange={(ev) => setTitle(ev.target.value)}
       />
       <input
         type="text"
         placeholder="Summary"
         value={summary}
+        className="appearance-none rounded relative mb-2 block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900  focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
         onChange={(ev) => setSummary(ev.target.value)}
       />
-      <input type="file" onChange={(ev) => setFile(ev.target.files[0])} />
+      <input
+        type="file"
+        className="appearance-none rounded relative mb-2 block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900  focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+        onChange={(ev) => setFile(ev.target.files[0])}
+      />
       <Editor value={content} onChange={setContent} />
-      <button type="submit" style={{ marginTop: "5px" }}>
+      <button type="submit" className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-gray-800 hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 mt-6">
         Update post
       </button>
     </form>
