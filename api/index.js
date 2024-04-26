@@ -1,6 +1,6 @@
 const express = require("express");
 const cors = require("cors");
-const mongoose = require("mongoose"); // Import mongoose
+const mongoose = require("mongoose"); 
 const User = require("./models/User");
 const Post = require("./models/Post");
 const bcrypt = require("bcryptjs");
@@ -143,23 +143,17 @@ app.put("/post/:id", uploadMiddleware.single("file"), async (req, res) => {
   const postId = req.params.id;
   const { title, summary, content } = req.body;
   const { file } = req;
-
   try {
     let updateFields = { title, summary, content };
-
-    // If a new file is uploaded, update the cover field
     if (file) {
       updateFields.cover = file.path;
     }
-
     const updatedPost = await Post.findByIdAndUpdate(postId, updateFields, {
-      new: true, // Return the updated document
+      new: true, 
     });
-
     if (!updatedPost) {
       return res.status(404).json({ error: "Post not found" });
     }
-
     res.json(updatedPost);
   } catch (error) {
     console.error(error);
