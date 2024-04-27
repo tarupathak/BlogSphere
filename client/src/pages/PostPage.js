@@ -57,7 +57,7 @@ export default function PostPage() {
             <img
               src={`http://localhost:8080/${postInfo.cover}`}
               alt="cover image"
-              className="w-full max-w-md h-auto rounded-md"
+              className="w-full h-auto rounded-md"
             />
           </div>
           <div className="mt-4 max-w-full overflow-x-auto">
