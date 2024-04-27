@@ -61,9 +61,8 @@ export default function PostPage() {
             />
           </div>
           <div className="mt-4 max-w-full overflow-x-auto">
-  <div dangerouslySetInnerHTML={{ __html: postInfo.content }} />
-</div>
-
+            <div dangerouslySetInnerHTML={{ __html: postInfo.content }} />
+          </div>
         </div>
       </div>
     </div>
