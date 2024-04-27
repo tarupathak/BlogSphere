@@ -24,7 +24,7 @@ export default function PostPage() {
         <h1 className="text-2xl text-center font-bold mb-4">
           {postInfo.title}
         </h1>
-        <time className="text-gray-600 flex flex-col items-center">
+        <time className="text-gray-600 flex flex-col items-center ">
           {formatISO9075(new Date(postInfo.createdAt))}
         </time>
         {/* <div className="author">by @{postInfo.author.username}</div> */}

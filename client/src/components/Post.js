@@ -14,7 +14,7 @@ const Post = ({ _id, title, summary, cover, content, createdAt, author }) => {
     <Link to={`/post/${_id}`}>
       <div class="text-lg lg:text-2xl font-bold">{title}</div>
     </Link>
-    <p class="text-xs font-bold text-gray">
+    <p class="text-xs font-bold text-gray-600 ">
       {/* <a className="">{author}</a> */}
       <time>{formatISO9075(new Date(createdAt))}</time>
     </p>
