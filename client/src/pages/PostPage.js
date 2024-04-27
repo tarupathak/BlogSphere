@@ -20,11 +20,11 @@ export default function PostPage() {
 
   return (
     <div className="">
-      <div className=" flex flex-col justify-around p-6">
+      <div className="flex flex-col justify-around p-6">
         <h1 className="text-2xl text-center font-bold mb-4">
           {postInfo.title}
         </h1>
-        <time className="text-gray-600  flex flex-col  items-center">
+        <time className="text-gray-600 flex flex-col items-center">
           {formatISO9075(new Date(postInfo.createdAt))}
         </time>
         {/* <div className="author">by @{postInfo.author.username}</div> */}
@@ -56,14 +56,14 @@ export default function PostPage() {
           <div className="mt-4">
             <img
               src={`http://localhost:8080/${postInfo.cover}`}
-              alt=""
-              className="w-200 h-auto rounded-md"
+              alt="cover image"
+              className="w-full max-w-md h-auto rounded-md"
             />
           </div>
-          <div
-            className="mt-4"
-            dangerouslySetInnerHTML={{ __html: postInfo.content }}
-          />
+          <div className="mt-4 max-w-full overflow-x-auto">
+  <div dangerouslySetInnerHTML={{ __html: postInfo.content }} />
+</div>
+
         </div>
       </div>
     </div>
