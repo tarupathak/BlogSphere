@@ -30,17 +30,37 @@ const Header = () => {
       <div className="text-bold text-black pacifico-regular">
         <Link to="/">BlogSphere</Link>
       </div>
-      <div className="flex items-center justify-around gap-12 text-lg">
+      <div class="flex items-center justify-around gap-12 text-lg">
         {username && (
           <>
-            <Link to="/create">Create new post</Link>
-            <Link onClick={logout}>Logout</Link>
+            <Link
+              to="/create"
+              class="transition duration-300 ease-in-out transform hover:scale-110"
+            >
+              Create new post
+            </Link>
+            <Link
+              onClick={logout}
+              class="transition duration-300 ease-in-out transform hover:scale-110"
+            >
+              Logout
+            </Link>
           </>
         )}
         {!username && (
           <>
-            <Link to="/login">Login</Link>
-            <Link to="/register">Register</Link>
+            <Link
+              to="/login"
+              class="transition duration-300 ease-in-out transform hover:scale-110"
+            >
+              Login
+            </Link>
+            <Link
+              to="/register"
+              class="transition duration-300 ease-in-out transform hover:scale-110"
+            >
+              Register
+            </Link>
           </>
         )}
       </div>
