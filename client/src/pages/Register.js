@@ -1,29 +1,33 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useContext } from "react";
+import { Link, Navigate } from "react-router-dom";
+import { UserContext } from "../UserContext";
 
 const Register = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [redirect, setRedirect] = useState(false);
+  const { setUserInfo } = useContext(UserContext);
 
-  async function register(event) {
-    event.preventDefault();
-    const username = document.getElementById("username").value;
-    const password = document.getElementById("password").value;
-    try {
-      const response = await fetch("http://localhost:8080/register", {
-        method: "POST",
-        body: JSON.stringify({ username, password }),
-        headers: { "Content-Type": "application/json" },
+  async function register(ev) {
+    ev.preventDefault();
+    const response = await fetch("http://localhost:8080/register", {
+      method: "POST",
+      body: JSON.stringify({ username, password }),
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+    });
+    if (response.ok) {
+      response.json().then((userInfo) => {
+        setUserInfo(userInfo);
+        setRedirect(true);
       });
-
-      if (!response.ok) {
-        throw new Error("Failed to register");
-      }
-      const data = await response.json();
-      console.log("Registration successful:", data);
-    } catch (error) {
-      console.error("Registration error:", error.message);
+    } else {
+      alert("Failed to register");
     }
+  }
+
+  if (redirect) {
+    return <Navigate to={"/"} />;
   }
 
   return (
