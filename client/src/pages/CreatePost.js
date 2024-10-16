@@ -40,22 +40,33 @@ const CreatePost = () => {
   const [redirect, setRedirect] = useState(false);
 
   async function createNewPost(ev) {
+    ev.preventDefault();
+  
     const data = new FormData();
     data.set("title", title);
     data.set("summary", summary);
     data.set("content", content);
-    data.set("file", files[0]);
-    ev.preventDefault();
-
-    const response = await fetch("http://localhost:8080/post", {
-      method: "POST",
-      body: data,
-      credentials: "include",
-    });
-    if (response.ok) {
+    if (files) data.set("file", files[0]);
+  
+    try {
+      const response = await fetch("http://localhost:8080/post", {
+        method: "POST",
+        body: data,
+        credentials: "include",
+      });
+  
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.error('Error:', errorData);
+        throw new Error('Network response was not ok.');
+      }
+  
       setRedirect(true);
+    } catch (error) {
+      console.error('Fetch error:', error);
     }
   }
+  
 
   if (redirect) {
     return <Navigate to={"/"} />;

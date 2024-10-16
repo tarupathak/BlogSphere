@@ -1,30 +1,25 @@
-const express = require("express");
-const cors = require("cors");
-const mongoose = require("mongoose"); 
-const User = require("./models/User");
-const Post = require("./models/Post");
-const bcrypt = require("bcryptjs");
+const express = require('express');
+const cors = require('cors');
+const mongoose = require("mongoose");
+const User = require('./models/User');
+const Post = require('./models/Post');
+const bcrypt = require('bcryptjs');
 const app = express();
-const jwt = require("jsonwebtoken");
-const cookieParser = require("cookie-parser");
-const multer = require("multer");
-const uploadMiddleware = multer({ dest: "uploads/" });
-const fs = require("fs");
-
-app.use(cors({ credentials: true, origin: "http://localhost:3000" }));
-app.use(express.json());
-app.use(cookieParser());
-app.use('/uploads',express.static(__dirname+ '/uploads'));
-
-mongoose.connect(
-  "mongodb+srv://pathaktaru2002:12345@cluster0.yb85zcz.mongodb.net/BlogSphere"
-);
+const jwt = require('jsonwebtoken');
+const cookieParser = require('cookie-parser');
+const multer = require('multer');
+const uploadMiddleware = multer({ dest: 'uploads/' });
+const fs = require('fs');
 
 const salt = bcrypt.genSaltSync(10);
-const secret = "asdfe45we45w345wegw345werjktjwertkj";
+const secret = 'asdfe45we45w345wegw345werjktjwertkj';
 
-const db = mongoose.connection;
-db.on("error", console.error.bind(console, "MongoDB connection error:"));
+app.use(cors({credentials:true,origin:'http://localhost:3000'}));
+app.use(express.json());
+app.use(cookieParser());
+app.use('/uploads', express.static(__dirname + '/uploads'));
+
+mongoose.connect('mongodb://localhost:27017/BlogSphere');
 
 app.post('/register', async (req,res) => {
   const {username,password} = req.body;
@@ -45,6 +40,7 @@ app.post('/login', async (req,res) => {
   const userDoc = await User.findOne({username});
   const passOk = bcrypt.compareSync(password, userDoc.password);
   if (passOk) {
+    // logged in
     jwt.sign({username,id:userDoc._id}, secret, {}, (err,token) => {
       if (err) throw err;
       res.cookie('token', token).json({
@@ -57,17 +53,16 @@ app.post('/login', async (req,res) => {
   }
 });
 
-app.get("/profile", (req, res) => {
-  const { token } = req.cookies;
-  jwt.verify(token, secret, {}, (err, info) => {
+app.get('/profile', (req,res) => {
+  const {token} = req.cookies;
+  jwt.verify(token, secret, {}, (err,info) => {
     if (err) throw err;
     res.json(info);
   });
-  res.json(req.cookies);
 });
 
-app.post("/logout", (req, res) => {
-  res.cookie("token", "").json("ok");
+app.post('/logout', (req,res) => {
+  res.cookie('token', '').json('ok');
 });
 
 app.post('/post', uploadMiddleware.single('file'), async (req,res) => {
@@ -139,28 +134,4 @@ app.get('/post/:id', async (req, res) => {
   res.json(postDoc);
 })
 
-app.put("/post/:id", uploadMiddleware.single("file"), async (req, res) => {
-  const postId = req.params.id;
-  const { title, summary, content } = req.body;
-  const { file } = req;
-  try {
-    let updateFields = { title, summary, content };
-    if (file) {
-      updateFields.cover = file.path;
-    }
-    const updatedPost = await Post.findByIdAndUpdate(postId, updateFields, {
-      new: true, 
-    });
-    if (!updatedPost) {
-      return res.status(404).json({ error: "Post not found" });
-    }
-    res.json(updatedPost);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Internal server error" });
-  }
-});
-
-app.listen(8080, () => {
-  console.log("Server is running on port 8080");
-});
+app.listen(8080);
