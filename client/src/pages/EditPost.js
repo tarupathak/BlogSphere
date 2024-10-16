@@ -29,10 +29,10 @@ export default function EditPost() {
     formData.append("content", content);
     formData.append("id", id);
     if (file) {
-      formData.append("file", file);
+      formData.append("file", file?.[0]);
     }
     try {
-      const response = await fetch(`http://localhost:8080/post/${id}`, {
+      const response = await fetch('http://localhost:8080/post', {
         method: "PUT",
         body: formData,
         credentials: "include",
@@ -48,7 +48,7 @@ export default function EditPost() {
   }
 
   if (redirect) {
-    return <Navigate to={`/post/${id}`} />;
+    return <Navigate to={'/'} />;
   }
 
   return (
